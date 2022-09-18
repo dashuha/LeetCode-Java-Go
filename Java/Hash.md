@@ -493,3 +493,91 @@ class Solution {
 }
 ```
 
+### [205. 同构字符串](https://leetcode.cn/problems/isomorphic-strings/)
+
+难度简单520
+
+给定两个字符串 `s` 和 `t` ，判断它们是否是同构的。
+
+如果 `s` 中的字符可以按某种映射关系替换得到 `t` ，那么这两个字符串是同构的。
+
+每个出现的字符都应当映射到另一个字符，同时不改变字符的顺序。不同字符不能映射到同一个字符上，相同字符只能映射到同一个字符上，字符可以映射到自己本身。
+
+**示例 1:**
+
+```
+输入：s = "egg", t = "add"
+输出：true
+```
+
+**示例 2：**
+
+```
+输入：s = "foo", t = "bar"
+输出：false
+```
+
+**示例 3：**
+
+```
+输入：s = "paper", t = "title"
+输出：true
+```
+
+**提示：**
+
+- `1 <= s.length <= 5 * 104`
+- `t.length == s.length`
+- `s` 和 `t` 由任意有效的 ASCII 字符组成
+
+```java
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        int n = s.length();
+        
+        Map<Character,Integer> map1 = new HashMap<>();
+        Map<Character,Integer> map2 = new HashMap<>();
+        for(int i = 0; i < n; i++){
+            char t1 = s.charAt(i);
+            char t2 = t.charAt(i);
+            if(!map1.containsKey(t1)){
+                map1.put(t1, i);
+            }else{
+                int idx1 = map1.get(t1);
+                if(!map2.containsKey(t2)){
+                    return false;
+                }
+                int idx2 = map2.get(t2);
+                if(idx1 != idx2){
+                    return false;
+                }
+            }
+
+            if(!map2.containsKey(t2)){
+                map2.put(t2, i);
+            }else{
+                if(!map1.containsKey(t1)){
+                    return false;
+                }
+                int idx1 = map1.get(t1);
+                int idx2 = map2.get(t2);
+                if(idx1 != idx2){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+```
+
+```java
+//法二
+for(int i = 0; i < s.length(); i++){
+            if(s.indexOf(s.charAt(i)) != t.indexOf(t.charAt(i))){
+                return false;
+            }
+        }
+ return true;
+```
+
